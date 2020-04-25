@@ -1,0 +1,32 @@
+Searching for word: " uhafobaoanfaseqffwfmr "
+Minimum similarity rate required: 75.000000%
+Maximum miss matches allowed: 5
+Basic Alg is x3923 faster than Naive Alg
+
+###################################
+######### Basic Algorithm Results #######
+###################################
+Found: 1 matches!
+Elapsed time: 0.002000 seconds
+
+------->                 Result #1               <-------
+-> Matched string: " uhtfobtornfuseaffwfmr "
+-> Matched in index: 999979
+-> Missed 5 matches!
+-> Similarity rate: 76.190476%
+-> Forms matched: fwfm, fwf-r, ffwf, wfmr, fob-o, ffw-m
+
+
+###################################
+######### Naive Algorithm Results #######
+###################################
+Found: 1 matches!
+Elapsed time: 7.846000 seconds
+
+------->                 Result #1               <-------
+-> Matched string: " uhtfobtornfuseaffwfmr "
+-> Matched in index: 999979
+-> Missed 5 matches!
+-> Similarity rate: 76.190476%
+
+
