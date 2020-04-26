@@ -341,3 +341,6 @@ healthchecksdb
 
 # Map Builder files
 input/map*
+
+# ignore report directory
+report/
