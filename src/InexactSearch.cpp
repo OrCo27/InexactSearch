@@ -14,22 +14,19 @@ InexactSearch::InexactSearch(const string& input, const string& search_words, fl
 void InexactSearch::DetermineMatch(int start_index)
 {
     int missmatch_count = 0;
-    string possible_match;
-
+    int input_index = start_index;
+    bool matched = true;
+    
     // in case of overflow, return false
     if ((start_index < 0) || (start_index + search_len > input_size))
     {
         return;
     }
 
-    // take the part of possible match from original text
-    possible_match = input.substr(start_index, search_len);
-    
-    bool matched = true;
-    for (int j = 0; j < search_len; j++)
+    for (int i = 0; i < search_len; i++)
     {
         // count mismatches, if it not reach to maximun - continue
-        if (possible_match[j] != search_words[j])
+        if (input[input_index] != search_words[i])
             missmatch_count++;
 
         // pass the maximum missmatches, stop searching
@@ -38,16 +35,14 @@ void InexactSearch::DetermineMatch(int start_index)
             matched = false;
             break;
         }
+
+        input_index++;
     }
 
     // there is a match, add it to output map
     if (matched)
     {
-        MatchResult res_data;
-        res_data.match = possible_match;
-        res_data.missmatch_count = missmatch_count;
-
-        this->results.insert(pair<unsigned int, MatchResult>(start_index, res_data));
+        this->results.insert(pair<int, int>(start_index, missmatch_count));
     }
 }
 
@@ -77,15 +72,16 @@ vector<string> InexactSearch::GetResults()
     for (auto& x : this->results)
     {
         unsigned int match_index = x.first;
-        MatchResult res = x.second;
+        int missmatch_count = x.second;
         string res_str;
-        int matches_count = search_len - res.missmatch_count;
+        string match = input.substr(match_index, search_len);
+        int matches_count = search_len - missmatch_count;
         double sim_rate = matches_count / double(search_len);
         
-        res_str =  "-> Matched string: \" " + res.match + " \"\n";
+        res_str =  "-> Matched string: \" " + match + " \"\n";
         res_str += "-> Matched in index: " + to_string(match_index) + "\n";
-        res_str += "-> Missed " + to_string(res.missmatch_count) + " matches!\n";
-        res_str += "-> Similarity rate: " + to_string(sim_rate*100) + "%\n";
+        res_str += "-> Missed " + to_string(missmatch_count) + " matches!\n";
+        res_str += "-> Similarity rate: " + to_string(sim_rate*100) + "%";
 
         results.push_back(res_str);
     }
