@@ -26,17 +26,18 @@ void BasicAlg::SearchImplementation()
         if (map_text_input.find(pattern) != map_text_input.end())
         {
             // current sub word found in the map
-            vector<unsigned int> vect_indexes = map_text_input[pattern];
+            vector<unsigned int> map_indexes = map_text_input[pattern];
 
             // iterate over each index that stored by current sub word
-            for (unsigned int index : vect_indexes)
+            for (unsigned int map_idx : map_indexes)
             {
                 // get the position of start search word
-                unsigned start_index = index - pattern_index;
-                bool is_matched = DetermineMatch(start_index);
-                if (is_matched)
+                int start_index = map_idx - pattern_index;
+
+                // check if there is a match, only when we didn't pass it yet
+                if (this->results.find(start_index) == this->results.end())
                 {
-                    this->results[start_index].forms_matched.push_back(pattern);
+                    DetermineMatch(start_index);
                 }
             }
         }

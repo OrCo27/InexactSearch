@@ -15,7 +15,6 @@ struct MatchResult
 {
 	int missmatch_count = 0;
 	string match;
-	vector<string> forms_matched;
 };
 
 class InexactSearch
@@ -27,7 +26,7 @@ protected:
 	int max_mismatch;
 	int min_matches;
 	int search_len;
-	unsigned int input_size;
+	int input_size;
 
 
 	/* C'tor: 
@@ -40,14 +39,14 @@ protected:
 	check if there is a match between search word to the input 
 	if there is a match - store it
 	*/
-	bool DetermineMatch(unsigned int start_index);
+	void DetermineMatch(int start_index);
 	virtual void SearchImplementation() = 0;
 	vector<string> GetResults();
 
 public:
 	double alg_time;
 	/* save starting index as key and details about the match as value */
-	unordered_map<unsigned int, MatchResult> results;
+	unordered_map<int, MatchResult> results;
 
 
 	void Search();

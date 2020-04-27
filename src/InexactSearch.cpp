@@ -11,7 +11,7 @@ InexactSearch::InexactSearch(const string& input, const string& search_words, fl
 	this->input_size = input.length();
 }
 
-bool InexactSearch::DetermineMatch(unsigned int start_index)
+void InexactSearch::DetermineMatch(int start_index)
 {
     int missmatch_count = 0;
     string possible_match;
@@ -19,7 +19,7 @@ bool InexactSearch::DetermineMatch(unsigned int start_index)
     // in case of overflow, return false
     if ((start_index < 0) || (start_index + search_len > input_size))
     {
-        return false;
+        return;
     }
 
     // take the part of possible match from original text
@@ -49,8 +49,6 @@ bool InexactSearch::DetermineMatch(unsigned int start_index)
 
         this->results.insert(pair<unsigned int, MatchResult>(start_index, res_data));
     }
-
-    return matched;
 }
 
 void InexactSearch::Search()
@@ -88,22 +86,6 @@ vector<string> InexactSearch::GetResults()
         res_str += "-> Matched in index: " + to_string(match_index) + "\n";
         res_str += "-> Missed " + to_string(res.missmatch_count) + " matches!\n";
         res_str += "-> Similarity rate: " + to_string(sim_rate*100) + "%\n";
-
-        vector<string> forms = res.forms_matched;
-        
-        if (forms.size() > 0)
-        {
-            string forms_matches = "-> Forms matched: ";
-
-            for (unsigned int i = 0; i < forms.size(); i++)
-            {
-                forms_matches += forms[i];
-                if (i != forms.size() - 1)
-                    forms_matches += ", ";
-            }
-
-            res_str += forms_matches;
-        }
 
         results.push_back(res_str);
     }
