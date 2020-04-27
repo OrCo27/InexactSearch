@@ -11,12 +11,6 @@
 
 using namespace std;
 
-struct MatchResult
-{
-	int missmatch_count = 0;
-	string match;
-};
-
 class InexactSearch
 {
 protected:
@@ -45,8 +39,8 @@ protected:
 
 public:
 	double alg_time;
-	/* save starting index as key and details about the match as value */
-	unordered_map<int, MatchResult> results;
+	/* save starting index as key and missmatch count as value */
+	unordered_map<int, int> results;
 
 
 	void Search();
