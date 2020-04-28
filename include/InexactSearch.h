@@ -46,7 +46,7 @@ public:
 	void Search();
 	virtual string Name() = 0;
 	void WriteResultsToFile(ofstream& ofile);
-	unsigned int GetMaxMissMatches();
+	int GetMaxMissMatches();
 };
 
 #endif

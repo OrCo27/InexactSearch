@@ -19,10 +19,9 @@ void InexactSearch::DetermineMatch(int start_index)
     
     // in case of overflow, return false
     if ((start_index < 0) || (start_index + search_len > input_size))
-    {
         return;
-    }
 
+    // pass each letter in input and search word for checking of match
     for (int i = 0; i < search_len; i++)
     {
         // count mismatches, if it not reach to maximun - continue
@@ -61,7 +60,7 @@ void InexactSearch::Search()
     this->alg_time = chrono::duration_cast<chrono::milliseconds>(end_base - start_base).count() / 1000.0;
 }
 
-unsigned int InexactSearch::GetMaxMissMatches()
+int InexactSearch::GetMaxMissMatches()
 {
     return this->max_mismatch;
 }
