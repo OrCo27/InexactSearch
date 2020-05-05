@@ -59,7 +59,7 @@ void InexactSearch::Search()
     // perform algorithm for each search word in the text
     for (int start_search_word_idx = 0; start_search_word_idx < MAX_SEARCH_WORDS; start_search_word_idx++)
     {
-        if (start_search_word_idx % 50000)
+        if (start_search_word_idx % 50000 == 0)
             cout << "Searching index: " << start_search_word_idx << endl;
 
         // start algorithom implementation
