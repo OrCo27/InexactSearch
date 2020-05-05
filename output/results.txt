@@ -1,90 +1,34 @@
 Minimum similarity rate required: 75.000000%
 Maximum miss matches allowed: 5
-Basic Alg is x1850 faster than Naive Alg
+Search word size: 21
+Basic Alg is x613.821 faster than Naive Alg
 
 ###################################
 ######### Basic Algorithm Results #######
 ###################################
 
-Elapsed time: 33.724000 seconds
+Elapsed time: 5.589000 seconds
 
-## Search Word: lspeuhtfobtxrnfusexff ##
-## Search Index : 650156                                    ##
+## Search Word: okacjekjgqrjmdqdoetar ##
+## Search Index : 93032                                    ##
 ------->                 Result #1               <-------
--> Matched string: " xgpcuhtfobtornfuseaff "
--> Matched in index: 999975
+-> Matched string: " okacjekjgqajmdndabtdr "
+-> Matched in index: 957761
 -> Missed 5 matches!
 -> Similarity rate: 76.190476%
 
-## Search Word: gpcuhtfobtornfuseaffw ##
-## Search Index : 999976                                    ##
-------->                 Result #1               <-------
--> Matched string: " speuhtfobtxrnfusexffw "
--> Matched in index: 650157
--> Missed 4 matches!
--> Similarity rate: 80.952381%
 
-## Search Word: speuhtfobtxrnfusexffw ##
-## Search Index : 650157                                    ##
-------->                 Result #1               <-------
--> Matched string: " gpcuhtfobtornfuseaffw "
--> Matched in index: 999976
--> Missed 4 matches!
--> Similarity rate: 80.952381%
+###################################
+######### Naive Algorithm Results #######
+###################################
 
-## Search Word: peuhtfobtxrnfusexffwx ##
-## Search Index : 650158                                    ##
-------->                 Result #1               <-------
--> Matched string: " pcuhtfobtornfuseaffwf "
--> Matched in index: 999977
--> Missed 4 matches!
--> Similarity rate: 80.952381%
+Elapsed time: 3430.645000 seconds
 
-## Search Word: euhtfobtxrnfusexffwxm ##
-## Search Index : 650159                                    ##
+## Search Word: okacjekjgqrjmdqdoetar ##
+## Search Index : 93032                                    ##
 ------->                 Result #1               <-------
--> Matched string: " cuhtfobtornfuseaffwfm "
--> Matched in index: 999978
--> Missed 4 matches!
--> Similarity rate: 80.952381%
-
-## Search Word: pcuhtfobtornfuseaffwf ##
-## Search Index : 999977                                    ##
-------->                 Result #1               <-------
--> Matched string: " peuhtfobtxrnfusexffwx "
--> Matched in index: 650158
--> Missed 4 matches!
--> Similarity rate: 80.952381%
-
-## Search Word: uhtfobtxrnfusexffwxmr ##
-## Search Index : 650160                                    ##
-------->                 Result #1               <-------
--> Matched string: " uhtfobtornfuseaffwfmr "
--> Matched in index: 999979
--> Missed 3 matches!
--> Similarity rate: 85.714286%
-
-## Search Word: xgpcuhtfobtornfuseaff ##
-## Search Index : 999975                                    ##
-------->                 Result #1               <-------
--> Matched string: " lspeuhtfobtxrnfusexff "
--> Matched in index: 650156
+-> Matched string: " okacjekjgqajmdndabtdr "
+-> Matched in index: 957761
 -> Missed 5 matches!
 -> Similarity rate: 76.190476%
-
-## Search Word: cuhtfobtornfuseaffwfm ##
-## Search Index : 999978                                    ##
-------->                 Result #1               <-------
--> Matched string: " euhtfobtxrnfusexffwxm "
--> Matched in index: 650159
--> Missed 4 matches!
--> Similarity rate: 80.952381%
-
-## Search Word: uhtfobtornfuseaffwfmr ##
-## Search Index : 999979                                    ##
-------->                 Result #1               <-------
--> Matched string: " uhtfobtxrnfusexffwxmr "
--> Matched in index: 650160
--> Missed 3 matches!
--> Similarity rate: 85.714286%
 
