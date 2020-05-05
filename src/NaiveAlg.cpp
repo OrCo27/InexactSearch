@@ -1,14 +1,14 @@
 #include "NaiveAlg.h"
 
-NaiveAlg::NaiveAlg(const string& input, const string& search_words, float min_similarity)
-    : InexactSearch(input, search_words, min_similarity) { }
+NaiveAlg::NaiveAlg(const string& input, int search_word_size, float min_similarity)
+    : InexactSearch(input, search_word_size, min_similarity) { }
 
-void NaiveAlg::SearchImplementation()
+void NaiveAlg::SearchImplementation(int start_search_word_idx)
 {
     // iterate over every group in size of search word and check if it match
-    for (int i = 0; i <= input_size - search_len; i++)
+    for (int start_match_word_idx = 0; start_match_word_idx <= input_size - search_len; start_match_word_idx++)
     {
-        DetermineMatch(i);
+        DetermineMatch(start_match_word_idx, start_search_word_idx);
     }
 }
 

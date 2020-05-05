@@ -22,7 +22,7 @@ public:
     /* Split a line by a specific delimeter and get a vector of tokens */
     static vector<string> SplitLineByDelimeter(const string& line, const char& delimeter);
     /* Create a file with random letters */
-    static void CreateFileWithRandomLetters(const string& fileName, unsigned int size);
+    static void CreateFileWithRandomLetters(const string& fileName, int letters_num, unsigned int size);
     /* Check if map file is already exists */
     static bool FileIsExists(const string& fileName);
 };

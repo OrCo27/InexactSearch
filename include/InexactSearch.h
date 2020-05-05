@@ -9,7 +9,10 @@
 #include <chrono>
 #include <math.h>
 
+#define MAX_SEARCH_WORDS 150000
+
 using namespace std;
+
 
 class InexactSearch
 {
@@ -19,32 +22,37 @@ protected:
 	float min_similarity;
 	int max_mismatch;
 	int min_matches;
-	int search_len;
 	int input_size;
 
 
 	/* C'tor: 
 	input - the input string for searching source
-	search_words - the text for search in the whole text
 	min_similarity - minimum similarity search */
-	InexactSearch(const string& input, const string& search_words, float min_similarity);
+	InexactSearch(const string& input, int search_word_size, float min_similarity);
 
 	/*
 	check if there is a match between search word to the input 
 	if there is a match - store it
 	*/
-	void DetermineMatch(int start_index);
-	virtual void SearchImplementation() = 0;
-	vector<string> GetResults();
+	void DetermineMatch(int start_match_word_idx, int start_search_word_idx);
+	virtual void SearchImplementation(int start_search_word_idx) = 0;
+	vector<string> GetResults(unordered_map<int, int> matches);
 
 public:
 	double alg_time;
-	/* save starting index as key and missmatch count as value */
-	unordered_map<int, int> results;
+	int search_len;
 
+	/*
+	key -> start search word index
+	value -> map that the key is start matching index and value is mismatch count 
+	*/
+	unordered_map<int, unordered_map<int, int>> search_words_results;
 
+	/* Start find all similar matches */
 	void Search();
 	virtual string Name() = 0;
+
+	/* Write to report file */
 	void WriteResultsToFile(ofstream& ofile);
 	int GetMaxMissMatches();
 };

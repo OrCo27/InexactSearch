@@ -16,22 +16,22 @@ int main()
     const string output_file_name = "output/results.txt";
     const unsigned int input_size = 1000000;
     const float similar_match = 0.75;
+    const int letters_count = 20;
+    
 
     // ##### Generate a text file with a random text, and load it when exists #####
     if (!Utils::FileIsExists(input_file_name))
     {
-        Utils::CreateFileWithRandomLetters(input_file_name, input_size);
+        Utils::CreateFileWithRandomLetters(input_file_name, letters_count, input_size);
     }
 
     const string input_text = Utils::GetFileString(input_file_name);
     
-    // ######## Select a search word in size of S ######
+    // ######## Select a search word size S ######
     // X=4 (Average last id) => |S|=25-4=21 
-    // Select a random word for search in size of |S|
 
-    string search_word = "uhafobaoanfaseqffwfmr";
-    //                    ^^-^^^-^-^^-^^-^^^^^^
-    // full match:        uhtfobtornfuseaffwfmr
+    const int search_word_size = 21;
+    
 
     // ############ Loading forms ##############
     
@@ -55,24 +55,21 @@ int main()
    
     // ############# Running Algs ##############
 
-    BasicAlg basic_alg(map_builder, input_text, search_word, similar_match);
-    NaiveAlg naive_alg(input_text, search_word, similar_match);
+    BasicAlg basic_alg(map_builder, input_text, search_word_size, similar_match);
+    NaiveAlg naive_alg(input_text, search_word_size, similar_match);
 
     InexactSearch* algs[2] = { &basic_alg, &naive_alg };
     
-    
+   
     for (int i = 0; i < 2; i++)
     {
-        string alg_name = algs[i]->Name();
-        cout << "-- Start Searching by " + alg_name + "--"<< endl;
-
         algs[i]->Search();
-        
-        cout << "Found: " + to_string(algs[i]->results.size()) + " Matches!" << endl;
-        cout << "Elapsed time for " + alg_name + " : " + to_string(algs[i]->alg_time) << endl;
     }
-   
+  
+
     // ##### Final Step: Writing Results to file ######
+
+    
     ofstream ofile;
     ofile.open(output_file_name);
     
@@ -80,9 +77,9 @@ int main()
     float min_sim_rate = similar_match * 100;
     double speed_rate = naive_alg.alg_time / basic_alg.alg_time;
 
-    ofile << "Searching for word: \" " + search_word + " \"" << endl;
     ofile << "Minimum similarity rate required: " << to_string(min_sim_rate) << "%" << endl;
     ofile << "Maximum miss matches allowed: " << to_string(basic_alg.GetMaxMissMatches()) << endl;
+    ofile << "Search word size: " << to_string(basic_alg.search_len) << endl;
     ofile << "Basic Alg is x" << speed_rate << " faster than Naive Alg" << endl;
 
     for (int i = 0; i < 2; i++)
@@ -90,8 +87,9 @@ int main()
         // write current alg result to file
         algs[i]->WriteResultsToFile(ofile);
     }
-
+   
     ofile.close();
+    
 
     return 0;
 }

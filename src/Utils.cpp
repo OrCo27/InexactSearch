@@ -49,14 +49,14 @@ vector<string> Utils::SplitLineByDelimeter(const string& line, const char& delim
     return tokens;
 }
 
-void Utils::CreateFileWithRandomLetters(const string& fileName, unsigned int size)
+void Utils::CreateFileWithRandomLetters(const string& fileName, int letters_num, unsigned int size)
 {
     ofstream rand_letters_file;
     rand_letters_file.open(fileName);
 
     for (unsigned int i = 0; i < size; i++)
     {
-        char rand_ch = 'a' + rand() % 26;
+        char rand_ch = 'a' + rand() % letters_num;
         rand_letters_file << rand_ch;
     }
 

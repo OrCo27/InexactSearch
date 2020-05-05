@@ -12,12 +12,12 @@ private:
 	unordered_map<string, vector<unsigned int>> map_text_input;
 
 public:
-	BasicAlg(MapBuilder map_text_builder, const string& input, const string& search_words, float min_similarity = 0.75);
+	BasicAlg(MapBuilder map_text_builder, const string& input, int search_word_size, float min_similarity = 0.75);
 
 	string Name();
 
 protected:
-	void SearchImplementation();
+	void SearchImplementation(int start_search_word_idx);
 };
 
 #endif

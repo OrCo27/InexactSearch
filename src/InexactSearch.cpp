@@ -1,31 +1,35 @@
 #include "InexactSearch.h"
 
-InexactSearch::InexactSearch(const string& input, const string& search_words, float min_similarity)
+InexactSearch::InexactSearch(const string& input, int search_word_size, float min_similarity)
 {
 	this->input = input;
-	this->search_words = search_words;
+    this->search_len = search_word_size;
 	this->min_similarity = min_similarity;
-    this->min_matches = ceil(search_words.length() * min_similarity);
-	this->max_mismatch = search_words.length() - this->min_matches;
-	this->search_len = search_words.length();
+    this->min_matches = ceil(search_word_size * min_similarity);
+	this->max_mismatch = search_word_size - this->min_matches;
 	this->input_size = input.length();
 }
 
-void InexactSearch::DetermineMatch(int start_index)
+void InexactSearch::DetermineMatch(int start_match_word_idx, int start_search_word_idx)
 {
     int missmatch_count = 0;
-    int input_index = start_index;
+    int input_index = start_match_word_idx;
+    int search_index = start_search_word_idx;
     bool matched = true;
     
     // in case of overflow, return false
-    if ((start_index < 0) || (start_index + search_len > input_size))
+    if (input_index + search_len > input_size)
+        return;
+
+    // in case of the same word between search and input
+    if (input_index == search_index)
         return;
 
     // pass each letter in input and search word for checking of match
-    for (int i = 0; i < search_len; i++)
+    for (int i = 0; i < search_len; i++, search_index++, input_index++)
     {
         // count mismatches, if it not reach to maximun - continue
-        if (input[input_index] != search_words[i])
+        if (input[input_index] != input[search_index])
             missmatch_count++;
 
         // pass the maximum missmatches, stop searching
@@ -34,30 +38,41 @@ void InexactSearch::DetermineMatch(int start_index)
             matched = false;
             break;
         }
-
-        input_index++;
     }
 
     // there is a match, add it to output map
     if (matched)
     {
-        this->results.insert(pair<int, int>(start_index, missmatch_count));
+        this->search_words_results[start_search_word_idx][start_match_word_idx] = missmatch_count;
+
+        cout << "Found match in index: " << start_match_word_idx << " For search index: "<< start_search_word_idx << endl;
     }
 }
 
 void InexactSearch::Search()
 {
+    cout << Name() << " Starting Searching" << endl;
+
     // start measuring
     auto start_base = chrono::steady_clock::now();
 
-    // start algorithom implementation
-    SearchImplementation();
+    // perform algorithm for each search word in the text
+    for (int start_search_word_idx = 0; start_search_word_idx < MAX_SEARCH_WORDS; start_search_word_idx++)
+    {
+        if (start_search_word_idx % 50000)
+            cout << "Searching index: " << start_search_word_idx << endl;
+
+        // start algorithom implementation
+        SearchImplementation(start_search_word_idx);
+    }
 
     // stop measuring
     auto end_base = chrono::steady_clock::now();
 
     // store ellapsed time
     this->alg_time = chrono::duration_cast<chrono::milliseconds>(end_base - start_base).count() / 1000.0;
+
+    cout << Name() << " Searching Ended with: " << to_string(this->alg_time) << " seconds" << endl;
 }
 
 int InexactSearch::GetMaxMissMatches()
@@ -65,10 +80,11 @@ int InexactSearch::GetMaxMissMatches()
     return this->max_mismatch;
 }
 
-vector<string> InexactSearch::GetResults()
+
+vector<string> InexactSearch::GetResults(unordered_map<int, int> matches)
 {
     vector<string> results;
-    for (auto& x : this->results)
+    for (auto& x : matches)
     {
         unsigned int match_index = x.first;
         int missmatch_count = x.second;
@@ -90,20 +106,32 @@ vector<string> InexactSearch::GetResults()
 
 void InexactSearch::WriteResultsToFile(ofstream& ofile)
 {
-    vector<string> results = GetResults();
+    //vector<string> results = GetResults();
 
     ofile << "\n###################################" << endl;
     ofile << "######### " << Name() << " Results #######" << endl;
-    ofile << "###################################" << endl;
-    ofile << "Found: " + to_string(results.size()) + " matches!" << endl;
+    ofile << "###################################\n" << endl;
     ofile << "Elapsed time: " + to_string(alg_time) << " seconds\n" << endl;
-
-    for (size_t i = 0; i < results.size(); i++)
+    for (auto& search_result : search_words_results)
     {
-        string str = results[i];
-        int result_num = i + 1;
+        int search_word_idx = search_result.first;
+        unordered_map<int, int> matches = search_result.second;
 
-        ofile << "------->                 Result #" << to_string(result_num) << "               <-------" << endl;
-        ofile << str << "\n" << endl;
+        string search_word = input.substr(search_word_idx, search_len);
+
+
+        ofile << "## Search Word: " << search_word << " ##" << endl;
+        ofile << "## Search Index : " << search_word_idx << "                                    ##" << endl;
+
+        vector<string> results = GetResults(matches);
+
+        for (size_t i = 0; i < results.size(); i++)
+        {
+            string str = results[i];
+            int result_num = i + 1;
+
+            ofile << "------->                 Result #" << to_string(result_num) << "               <-------" << endl;
+            ofile << str << "\n" << endl;
+        }
     }
 }
